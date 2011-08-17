@@ -1,0 +1,51 @@
+name: MonkeyMod
+main: com.cppmonkey.monkeymod.MonkeyMod
+version: 1.0.0
+website: http://cppmonkey.net/monkeymod
+author: CppMonkey
+description: >
+             Server protection and logging mod for use with Bukkit.
+commands:
+  boxy:
+    aliases: [b]
+    description: Substitues one type of blocks for another.
+    usage: |
+           /<command> item[:data] item[:data] [height] [stepping]
+           Example: /<command> 0 1 - turns air into cobble
+  item:
+    aliases: [i]
+    description: Request an item
+    usage: |
+           /<command> item[:data] [quantity]
+           Example: /<command 1 - Gives you a block of cobble
+           Example: /<command 5 64 - Gives you a stack of wood
+           Example: /<command 35:2 - Gives you a block of coloured wool
+  monkey:
+    aliases: [mm]
+    description: Admin command for MonkeyMod
+    usage: |
+           /<command> status
+           /<command> version
+           /<command> update
+           For more check the wiki
+  grave:
+    description: Designate a grave site. Items will be stored here upon death
+    usage: |
+           /<command> set [player] - Set a players grave site
+           /<command> dismiss [player] - Dismiss a players grave site
+  home:
+    description: Designates a players home
+    usage: |
+           /<command> [name] [player]
+  homes:
+    description: Displays a list of the players homes
+    usage: |
+           /<command> [player]
+  sethome:
+    description: Sets players current position to a home with an optional name
+    usage: |
+           /<command> [name] [player]
+  spawn:
+    description: Teleports you back to the world spawn location or players spawn
+    usage: |
+           /<command> [player]
