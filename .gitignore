@@ -1,0 +1,12 @@
+# Eclipse
+/.classpath
+/.protect
+/.settings
+
+# Netbeans
+/nbproject
+
+# Others
+/manifest.mf
+/build_old.xml
+/bin
