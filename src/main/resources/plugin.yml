@@ -6,6 +6,10 @@ author: CppMonkey
 description: >
              Server protection and logging mod for use with Bukkit.
 commands:
+  debug:
+    description: Enable debug output
+    usage: |
+           /<command> enable/disable           
   boxy:
     aliases: [b]
     description: Substitute one type of blocks for another.
