@@ -88,7 +88,7 @@ public class DebugModule {
 		private DebugBlockListener m_debugBlockListener;
 		private DebugPlayerListener m_debugPlayerListener;
 		private DebugEntityListener m_debugEntityListener;
-		
+
 		public class DebugBlockListener extends BlockListener {
 			public void onBlockDamage(BlockDamageEvent event) {
 				MonkeyMod.log.info("onBlockDamage");
@@ -250,20 +250,20 @@ public class DebugModule {
 				MonkeyMod.log.info("onEntityDeath");
 				DamageCause cause = event.getEntity().getLastDamageCause().getCause();
 				MonkeyMod.log.fine(cause.name());
-		        if (cause == DamageCause.ENTITY_ATTACK) {
-		        	EntityDamageEvent damageCause = event.getEntity().getLastDamageCause();
+				if (cause == DamageCause.ENTITY_ATTACK) {
+					EntityDamageEvent damageCause = event.getEntity().getLastDamageCause();
 
-		            Entity killer = null;
-		            if (damageCause instanceof EntityDamageByEntityEvent) {
-		                killer = ((EntityDamageByEntityEvent) damageCause).getDamager();
-		                if (killer instanceof Arrow) {
-		                	killer = ((Arrow)killer).getShooter();
-		                	MonkeyMod.log.finer("Damage from projectile, killer was " + killer.getClass().getSimpleName());
-		                }
-		            } else {
-		                MonkeyMod.log.finer(damageCause.toString() + " is not a damage cause");
-		            }
-		        }
+					Entity killer = null;
+					if (damageCause instanceof EntityDamageByEntityEvent) {
+						killer = ((EntityDamageByEntityEvent) damageCause).getDamager();
+						if (killer instanceof Arrow) {
+							killer = ((Arrow)killer).getShooter();
+							MonkeyMod.log.finer("Damage from projectile, killer was " + killer.getClass().getSimpleName());
+						}
+					} else {
+						MonkeyMod.log.finer(damageCause.toString() + " is not a damage cause");
+					}
+				}
 			}
 			public void onEntityTarget(EntityTargetEvent event) {
 				MonkeyMod.log.info("onEntityTarget");
@@ -312,15 +312,18 @@ public class DebugModule {
 
 				// iterate through Event.Type
 				for (Event.Type event : Event.Type.values()) {
-
-					if (event.getCategory() == Event.Category.PLAYER) {
-						pm.registerEvent(event, m_debugPlayerListener, Priority.Monitor, m_plugin);
-					} else if (event.getCategory() == Event.Category.BLOCK) {
-						pm.registerEvent(event, m_debugBlockListener, Priority.Monitor, m_plugin);
-					} else if (event.getCategory() == Event.Category.ENTITY) {
-						pm.registerEvent(event, m_debugEntityListener, Priority.Monitor, m_plugin);
-					} else {
-						MonkeyMod.log.finest(event.name() + " doesnt have a debug event listener yet");
+					try{
+						if (event.getCategory() == Event.Category.PLAYER) {
+							pm.registerEvent(event, m_debugPlayerListener, Priority.Monitor, m_plugin);
+						} else if (event.getCategory() == Event.Category.BLOCK) {
+							pm.registerEvent(event, m_debugBlockListener, Priority.Monitor, m_plugin);
+						} else if (event.getCategory() == Event.Category.ENTITY) {
+							pm.registerEvent(event, m_debugEntityListener, Priority.Monitor, m_plugin);
+						} else {
+							MonkeyMod.log.finest(event.name() + " doesnt have a debug event listener yet");
+						}
+					}catch(IllegalArgumentException e){
+						MonkeyMod.log.warning(e.getMessage());
 					}
 				}
 				return true;
@@ -333,7 +336,7 @@ public class DebugModule {
 		m_plugin = plugin;
 		m_debugCommand = new DebugCommand(plugin);
 	}
-	
+
 	public void onEnable() {
 		m_plugin.getCommand("debug").setExecutor(m_debugCommand);
 		MonkeyMod.log.fine("enabled debug command listener");
